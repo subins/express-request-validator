@@ -7,8 +7,12 @@ A validator middleware for express which can intercept requests, validate reques
 var v = require('express-request-validator');
 app.route('/api/user')
 		.get(v.query('email').notEmpty().isEmail().m(), admin.listUsers)
-		.post(v.body('name').notEmpty().m(), v.body('email').isEmail().m(), 
+		.post(v.body('name').notEmpty().m(), 
+		      v.body('email').isEmail().m(),
+		      v.body('password').minlength(7).maxlength(20).m(), 
 		      users.hasAuthorization(['admin']), admin.createLocation);
+		      
+app.route('/api/user/:email').get(v.params('email').notEmpty().isEmail().m(), admin.readUser)		      
 ```		      
 
 > for validating req.query.{paramname} use v.query method
