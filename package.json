@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/subins/express-request-validator/issues"
   },
-  "homepage": "https://github.com/subins/express-request-validator"
+  "homepage": "https://github.com/subins/express-request-validator",
+  "dependencies": {
+    "validator": "^3.33.0"
+  }
 }
