@@ -7,7 +7,7 @@
 var nodeValidator = require('validator');
 var validator = {};
 
-var validationMethods= [
+var validationMethods= {
 	"notEmpty": function(name) {
 		if(name && name!="") {
 			return true;
@@ -23,7 +23,7 @@ var validationMethods= [
 	}
 
 	
-];
+};
 
 validator.init = function() {
 	validator.type = null;
@@ -31,18 +31,22 @@ validator.init = function() {
 	validator.minLength = null;
 	validator.maxLength = null;
 	validator.validations=[];
+	return validator;
 }
 validator.params = function(name) {
+	validator.init();
 	validator.type = "params";
 	validator.paramName = name;
 	return validator;
 }
 validator.body = function(name) {
+	validator.init();
 	validator.type = "body";
 	validator.paramName = name;
 	return validator;		
 }
 validator.query = function(name) {
+	validator.init();
 	validator.type = "query";
 	validator.paramName = name;	
 	return validator;
@@ -71,7 +75,7 @@ validator.isEmail = function(length) {
 	return validator;
 }
 validator.middleware =  function() {
-	function(val) {
+	var f =  (function(val) {
 		return function(req,res,next){
 			var value = null;
 			if(val.type === "query") {
@@ -88,12 +92,13 @@ validator.middleware =  function() {
 				var func = validationMethods[name];
 				if(!func(value)) {
 					return res.send(400, {
-						message: "validation failure '"+ name +"' for field "+ val.paramName +", in"+ val.type;
+						message: "validation failure '"+ name +"' for field "+ val.paramName +", in "+ val.type
 					});
 				}
 			}
 			next();
 		}
-	}(validator)
+	})(validator);
+	return f;
 }
 module.exports = validator;
