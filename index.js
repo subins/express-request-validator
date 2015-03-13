@@ -39,52 +39,53 @@ var validationMethods= {
 };
 
 validator.init = function() {
-	validator.type = null;
-	validator.paramName = null;
-	validator.minLength = null;
-	validator.maxLength = null;
-	validator.validations=[];
+	validator.curr = {};
+	validator.curr.type = null;
+	validator.curr.paramName = null;
+	validator.curr.minLength = null;
+	validator.curr.maxLength = null;
+	validator.curr.validations=[];
 	return validator;
 }
 validator.params = function(name) {
 	validator.init();
-	validator.type = "params";
-	validator.paramName = name;
+	validator.curr.type = "params";
+	validator.curr.paramName = name;
 	return validator;
 }
 validator.body = function(name) {
 	validator.init();
-	validator.type = "body";
-	validator.paramName = name;
+	validator.curr.type = "body";
+	validator.curr.paramName = name;
 	return validator;		
 }
 validator.query = function(name) {
 	validator.init();
-	validator.type = "query";
-	validator.paramName = name;	
+	validator.curr.type = "query";
+	validator.curr.paramName = name;	
 	return validator;
 }
 
 validator.notEmpty = function() {
-	validator.validations.push("notEmpty");
+	validator.curr.validations.push("notEmpty");
 	return validator;
 }
 validator.isNumber = function() {
-	validator.validations.push("isNumber");
+	validator.curr.validations.push("isNumber");
 	return validator;
 }
 validator.minLength = function(length) {
-	validator.validations.push("minLength");
-	validator.minLength = length;
+	validator.curr.validations.push("minLength");
+	validator.curr.minLength = length;
 	return validator;
 }
 validator.maxLength = function(length) {
-	validator.validations.push("maxLength");
-	validator.maxLength = length;
+	validator.curr.validations.push("maxLength");
+	validator.curr.maxLength = length;
 	return validator;
 }
 validator.isEmail = function(length) {
-	validator.validations.push("isEmail");
+	validator.curr.validations.push("isEmail");
 	return validator;
 }
 validator.m =  function() {
@@ -115,13 +116,13 @@ validator.middleware =  function() {
 				}
 				if(!func(value, secondParam)) {
 					return res.send(400, {
-						message: "validation failure '"+ name +"' for field "+ val.paramName +", in "+ val.type
+						message: "validation failure '"+ name +"' for field '"+ val.paramName +"', in "+ val.type
 					});
 				}
 			}
 			next();
 		}
-	})(validator);
+	})(validator.curr);
 	return f;
 }
 module.exports = validator;
