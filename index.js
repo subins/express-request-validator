@@ -8,20 +8,33 @@ var nodeValidator = require('validator');
 var validator = {};
 
 var validationMethods= {
-	"notEmpty": function(name) {
+	'notEmpty': function(name) {
 		if(name && name!="") {
 			return true;
 		} else {
 			return false;
 		}
 	},
-	"isNumber": function(value) {
+	'isNumber': function(value) {
 		return !isNaN(parseFloat(value)) && isFinite(value);
 	},
-	"isEmail": function(value) {
+	'isEmail': function(value) {
 		return nodeValidator.isEmail(value);
+	},
+	'minLength': function(value, length) {
+		if(value && value.length >= length) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	'maxLength': function(value, length) {
+		if(value && value.length <= length) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-
 	
 };
 
@@ -74,6 +87,9 @@ validator.isEmail = function(length) {
 	validator.validations.push("isEmail");
 	return validator;
 }
+validator.m =  function() {
+	return validator.middleware();
+}
 validator.middleware =  function() {
 	var f =  (function(val) {
 		return function(req,res,next){
@@ -90,7 +106,14 @@ validator.middleware =  function() {
 			for(var i=0; i < val.validations.length; i++) {
 				var name = val.validations[i];
 				var func = validationMethods[name];
-				if(!func(value)) {
+				var secondParam = null;
+				if(name === "minLength") {
+					secondParam = val.minLength;
+				}
+				if(name === "maxLength") {
+					secondParam = val.maxLength;
+				}
+				if(!func(value, secondParam)) {
 					return res.send(400, {
 						message: "validation failure '"+ name +"' for field "+ val.paramName +", in "+ val.type
 					});
