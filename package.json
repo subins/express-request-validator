@@ -1,0 +1,36 @@
+{
+  "name": "express-request-validator",
+  "version": "0.0.1",
+  "description": "A validator middleware for express which can intercept requests, validate request body, params, param and respond with error code, message, all customisable.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/subins/express-request-validator.git"
+  },
+  "keywords": [
+    "express",
+    "request",
+    "validation",
+    "request",
+    "params",
+    "validation",
+    "sanitization",
+    "request",
+    "params",
+    "request",
+    "body",
+    "request",
+    "query",
+    "params",
+    "validation"
+  ],
+  "author": "subin sebastian",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/subins/express-request-validator/issues"
+  },
+  "homepage": "https://github.com/subins/express-request-validator"
+}
