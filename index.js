@@ -115,7 +115,7 @@ validator.middleware =  function() {
 					secondParam = val.maxLength;
 				}
 				if(!func(value, secondParam)) {
-					return res.send(400, {
+					return res.status(400).send({
 						message: "validation failure '"+ name +"' for field '"+ val.paramName +"', in "+ val.type
 					});
 				}
