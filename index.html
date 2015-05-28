@@ -30,7 +30,7 @@ app.route(<span class="pl-s"><span class="pl-pds">'</span>/api/user<span class="
         .get(v.query(<span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>).notEmpty().isEmail().m(), userManagementController.listUsers)
         .post(v.<span class="pl-c1">body</span>(<span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>).notEmpty().m(), 
               v.<span class="pl-c1">body</span>(<span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>).isEmail().m(),
-              v.<span class="pl-c1">body</span>(<span class="pl-s"><span class="pl-pds">'</span>password<span class="pl-pds">'</span></span>).minlength(<span class="pl-c1">7</span>).maxlength(<span class="pl-c1">20</span>).m(), 
+              v.<span class="pl-c1">body</span>(<span class="pl-s"><span class="pl-pds">'</span>password<span class="pl-pds">'</span></span>).minLength(<span class="pl-c1">7</span>).maxLength(<span class="pl-c1">20</span>).m(), 
               userManagementController.create);
 
 app.route(<span class="pl-s"><span class="pl-pds">'</span>/api/user/:email<span class="pl-pds">'</span></span>).get(v.params(<span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>).notEmpty().isEmail().m(), userManagementController.readUser)              </pre></div>
